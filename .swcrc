@@ -1,0 +1,16 @@
+{
+	"jsc": {
+		"baseUrl": "./",
+		"parser": {
+			"syntax": "typescript",
+			"tsx": false
+		},
+		"target": "es2021",
+		"paths": {
+			"@/*": ["./*"]
+		}
+	},
+	"module": {
+		"type": "commonjs"
+	}
+}
