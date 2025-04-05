@@ -32,7 +32,6 @@ RUN adduser --system --uid 1001 expressjs
 # server.js is in /app/dist/src
 # copy (builder) /app/dist/src into (runner) /app/src
 COPY --from=builder --chown=expressjs:nodejs /app/dist ./
-COPY --from=builder --chown=expressjs:nodejs /app/public ./public
 COPY --from=builder --chown=expressjs:nodejs /app/node_modules ./node_modules
 
 USER expressjs
