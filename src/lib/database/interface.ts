@@ -77,6 +77,7 @@ export async function getInvitesData(eventId: string) {
 		throw new SQLError(`Failed to retrieve invites data from event_id: ${error?.message}`)
 	}
 
+	console.log("RETURNING DATA", data)
 	return data
 }
 
@@ -113,13 +114,14 @@ export async function createInviteData(eventId: string) {
 	return key
 }
 
-export async function updateInviteData(inviteId: string, name: string) {
+export async function updateInviteData(inviteId: string, name: string, allergies: string|undefined, remarks: string|undefined) {
 	/**
 	 * rsvp
 	 */
-	console.log("updating invite", inviteId, name)
+	console.log("updating invite", inviteId, name, allergies, remarks)
 	// populate name in record, add in timestamp in UTC timezone (milliseconds), and update status to 1
-	const { error } = await supabase.from("invite").update({ name: name, accepted_tz: +new Date(), status: 1 }).eq("id", inviteId)
+	const allergy = allergies != null
+	const { error } = await supabase.from("invite").update({ name, allergy, allergies, remarks, accepted_tz: +new Date(), status: 1 }).eq("id", inviteId)
 	if (error) {
 		throw new SQLError(`Failed to update invite data: ${error?.message}`)
 	}

@@ -46,10 +46,22 @@ router.post("/:inviteId", async (req: Request, res: Response) => {
 			message: "Please provide a valid name"
 		})
 		return
+	} else if (req.body.allergies != null && (req.body.allergies.length === 0 || req.body.allergies.length >= 2049)) {
+		// failed sanity check, allergies indicated yet empty string or exceed char limit
+		res.status(400).json({
+			message: "Please indicate your allergies in under 2048 characters"
+		})
+		return
+	} else if (req.body.remarks != null && (req.body.remarks.length === 0 || req.body.remarks.length >= 2049)) {
+		// failed sanity check, remarks included yet empty string or exceed char limit
+		res.status(400).json({
+			message: "Please indicate your remarks in under 2048 characters"
+		})
+		return
 	}
 
 	try {
-		await updateInviteData(req.params.inviteId, req.body.name)
+		await updateInviteData(req.params.inviteId, req.body.name, req.body.allergies, req.body.remarks)
 
 		res.json({
 			success: true
